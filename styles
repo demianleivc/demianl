@@ -1,0 +1,258 @@
+/* ---------------------------------------------------------
+   Tokens
+--------------------------------------------------------- */
+:root {
+  --ink:      #16161B;
+  --paper:    #F6F1EA;
+  --navy:     #0E1D36;
+  --blue:     #3E63D6;
+  --flare:    #FF5C8A;
+  --coral:    #FF8F63;
+
+  --font-display: "Barlow Condensed", sans-serif;
+  --font-body:    "Inter", sans-serif;
+  --font-mono:    "IBM Plex Mono", monospace;
+
+  --card-w: 420px;
+}
+
+/* ---------------------------------------------------------
+   Base
+--------------------------------------------------------- */
+* { box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--ink);
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 6vh 6vw;
+  overflow-x: hidden;
+}
+
+a { color: inherit; }
+
+/* ---------------------------------------------------------
+   Background photo + scrim
+--------------------------------------------------------- */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background-image: url("assets/hero.jpg");
+  background-size: cover;
+  background-position: 45% 20%;
+}
+
+.backdrop-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(
+    100deg,
+    rgba(10, 16, 30, 0.72) 0%,
+    rgba(10, 16, 30, 0.42) 32%,
+    rgba(10, 16, 30, 0.08) 58%,
+    rgba(10, 16, 30, 0) 78%
+  );
+}
+
+/* ---------------------------------------------------------
+   Pass card
+--------------------------------------------------------- */
+.pass {
+  position: relative;
+  width: min(var(--card-w), 100%);
+  background: rgba(246, 241, 234, 0.88);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 18px;
+  padding: 40px 30px 30px;
+  box-shadow: 0 30px 60px -20px rgba(14, 29, 54, 0.55);
+  animation: rise 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.pass::before {
+  /* holographic accent stripe along the top edge */
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 18px;
+  right: 18px;
+  height: 4px;
+  border-radius: 0 0 3px 3px;
+  background: linear-gradient(90deg, var(--blue), var(--flare) 55%, var(--coral));
+}
+
+/* lanyard tab, like a real event pass */
+.pass__tab {
+  position: absolute;
+  top: -22px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 84px;
+  height: 26px;
+  background: var(--navy);
+  border-radius: 8px 8px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pass__grommet {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+}
+
+.pass__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.02em;
+  color: var(--navy);
+  opacity: 0.75;
+  margin-bottom: 22px;
+}
+
+.pass__id { margin-bottom: 18px; }
+
+.pass__name {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(2.2rem, 5vw + 1rem, 3rem);
+  line-height: 0.95;
+  letter-spacing: 0.01em;
+  margin: 0 0 6px;
+  color: var(--navy);
+}
+
+.pass__handle {
+  font-size: 0.95rem;
+  color: rgba(22, 22, 27, 0.62);
+  margin: 0;
+}
+
+.pass__rule {
+  height: 1px;
+  background: rgba(14, 29, 54, 0.14);
+  margin: 20px 0;
+}
+
+.pass__bio {
+  font-size: 0.98rem;
+  line-height: 1.55;
+  color: rgba(22, 22, 27, 0.85);
+  margin: 0;
+  max-width: 46ch;
+}
+
+/* ---------------------------------------------------------
+   Link buttons
+--------------------------------------------------------- */
+.pass__links {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.pass__link {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  padding: 11px 14px;
+  border-radius: 10px;
+  background: rgba(14, 29, 54, 0.04);
+  border: 1px solid rgba(14, 29, 54, 0.12);
+  text-decoration: none;
+  font-family: inherit;
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--navy);
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+}
+
+button.pass__link {
+  appearance: none;
+  -webkit-appearance: none;
+  text-align: left;
+}
+
+.pass__link.is-copied {
+  background: var(--blue);
+  border-color: var(--blue);
+  color: var(--paper);
+}
+
+.pass__link.is-copied svg {
+  fill: var(--paper);
+}
+
+.pass__link svg {
+  width: 17px;
+  height: 17px;
+  flex: none;
+  fill: var(--navy);
+}
+
+.pass__link:hover,
+.pass__link:focus-visible {
+  background: var(--navy);
+  border-color: var(--navy);
+  color: var(--paper);
+  transform: translateY(-1px);
+}
+
+.pass__link:hover svg,
+.pass__link:focus-visible svg {
+  fill: var(--paper);
+}
+
+.pass__link:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
+}
+
+/* ---------------------------------------------------------
+   Motion + responsiveness
+--------------------------------------------------------- */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pass { animation: none; }
+  .pass__link { transition: none; }
+}
+
+@media (max-width: 640px) {
+  body {
+    align-items: flex-end;
+    padding: 0 5vw 6vh;
+  }
+  .backdrop { background-position: 42% 14%; }
+  .backdrop-scrim {
+    background: linear-gradient(
+      to top,
+      rgba(10, 16, 30, 0.8) 10%,
+      rgba(10, 16, 30, 0.35) 45%,
+      rgba(10, 16, 30, 0.05) 70%
+    );
+  }
+}
